@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href = "style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <script>
+        current_page = 1;
+        current_query = "";
+        
+        function callAPI() {
+            //STEP 1: Making instance of request object
+            request = new XMLHttpRequest();
+            alert("1. Request object created");
+
+            //STEP 2: Setting up URL for AJAX request to be the JSON file
+            request.open("GET","https://rickandmortyapi.com/api/character/2",true);
+            alert("2. Opened request file");
+
+            //STEP 3: Setting up event handler/callback
+            request.onreadystatechange = function() {
+                alert("3. readystatechange event fired");
+                alert("Readystate: " + request.readyState +
+                    "Requeststatus" + request.status);
+
+                //STEP 5: JSON data received, parse and use
+                if (request.readyState == 4 && request.status == 200) {
+                    console.log("5:  data is ready");
+                    theData = request.responseText;
+                    returnHTML = theData;
+                    data = JSON.parse(theData);
+
+                    returnHTML += "<br>";
+
+                    document.getElementById("test").innerHTML =returnHTML;
+                }
+
+                else if (request.readyState == 4 && request.status != 200) {
+                    document.getElementById("test").innerHTML = "Whoops, something went terribly wrong!";
+                }
+
+                else if (request.readyState == 3) {
+                    console.log("6:  ready state 3- request received,data being sent");
+                    document.getElementById("test").innerHTML = "Come back soon!";
+                }
+            }
+            // Step 4: fire off the HTTP request
+            request.send();
+            console.log("4 request sent");
+        }
+
+        
+        function fetchFilter(page) {
+            source = "https://rickandmortyapi.com/api/character/?page=" 
+                    + page + current_query;
+            res = 
+                fetch(source)
+                .then (res => res.text())
+                .then (data => 
+                {
+                    data = JSON.parse(data)
+                    // alert(data.image);
+                    displayList(data);
+                })
+                .catch (error => console.log(error))
+        }
+
+        fetchFilter(1);
+
+        function previousPage() {
+            if (current_page != 1) {
+                current_page -= 1;
+            }
+            // alert(current_page);
+            fetchFilter(current_page);
+        }
+
+        
+        function nextPage() {
+            if (current_page != 42) {
+                current_page += 1;
+            }
+            // alert(current_page);
+            fetchFilter(current_page);
+        }
+
+        function display_status() {
+            select = document.getElementById("status");
+            value = select.options[select.selectedIndex].text;
+            current_query = "&status="+value;
+            current_page = 1;
+            fetchFilter(current_page);
+        }
+
+
+        function displayList(data) {
+            document.getElementById("characters").innerHTML = "";
+            data.results.forEach(
+                character => displayCharacter(character));
+        }
+        
+        function displayCharacter(data) {
+            str = 
+                "<div class='character-card'> <div class='character-image'>"
+                    + "<img src="+ data.image + ">" + "</div>"
+                    + "<div class='character-info'> <h4>"
+                    + "Status: "+ data.status + "<h4><h5>"
+                    + data.name + "</h5><p>"
+                    + "Species: " + data.species + "</p><p>" 
+                    + "Current location: " + data.location.name + "</p><p>" 
+                    + "Origin: "+ data.origin.name + "</p>"
+                    + "</div></div>";
+            document.getElementById("characters").innerHTML += str;
+        }
+
+    </script>
+    <!-- onload = "callAPI()" -->
+    <body >
+        <h1> Rick and Morty Characters</h1>
+        <h2> Find your favourite characters here, spoilers ahead!</h2>
+
+        <div class = "search">
+            <label for="select">Filter by status:</label>
+        
+            <select name="status" id="status">
+                <option value="alive">alive</option>
+                <option value="dead">dead</option>
+            </select>
+
+            <button onclick="display_status()">Search</button> 
+        </div>
+        
+        <a href="#" class="previous" onclick="previousPage()">&#8249;</a>
+        <a href="#" class="next" onclick="nextPage()">&#8250;</a> 
+
+        <!-- <p id = "test"></p> -->
+
+        <div class = "characters" id = "characters"> </div>
+        
+        <div class = "explanation">
+        
+            <h3> API used: </h3> 
+            <p> Rick and Morty API </p>
+            <h3>Link:  </h3>
+            <p>https://rickandmortyapi.com <br>
+
+            <h3> About </h3> 
+            <p>The Rick and Morty API is a REST(ish) and GraphQL API 
+            based on the television show Rick and Morty. You will have access 
+            to about hundreds of characters, images, locations and episodes. 
+            The Rick and Morty API is filled with canonical information 
+            as seen on the TV show. This was a very well-documented API 
+            with in-depth explanations of it's usage. <br>
+
+            <h3> Options for Requesting </h3>
+            There are several methods of requesting a specific page. The first
+            one I used was the page= request, since the database only
+            gives 40 characters at a time. The other request I used was to 
+            search for specific character statuses, for example
+            whether or not a character was alive using status=. There are many
+            more, you can search by the character's name, ID, origin, etc. <br>
+
+
+            <h3> Applications </h3>
+            The first application is as a simple character lookup site. For
+            example, if you want to learn more about a certain character,
+            you can look up their name or the season/episode they were in
+            to get more information about them. <br>
+
+            The second and more exciting application that I think would be
+            really fun to implement is an online Guess Who? game for Rick 
+            and morty characters. For example, one person would say 
+            "Is this character from Earth?" and the other person would
+            say yes or no. Through the process of elimination, you would 
+            eventually guess the correct person. <br>
+            
+        </p>
+        </div>
+        </select>
+
+    </body>
+
+</html>

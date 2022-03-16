@@ -1,0 +1,102 @@
+body{
+    max-width: 1000px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+h1 {
+    font-family: "abercu";
+}
+
+h2 {
+    font-family: "abercu";
+}
+
+.characters {
+    max-width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    color: white;
+    }
+
+
+.character-card {
+    padding: 40px;
+    flex: 1 16%;
+    background-color: #b5b7d1;
+}
+    
+.character-image img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.character-info {
+    margin-top: auto;
+}
+    
+.character-info h4 {
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: light;
+    color: #ffffff;
+}
+    
+.character-info h5 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+    
+.character-info p {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+ }
+
+.search{
+    display: block;
+    margin-bottom: 30px;
+    font-family: "abercu";
+    /* font-size: 20px; */
+}
+
+
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 50%;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+    border-radius: 50%;
+}
+
+.next {
+    background-color: #b5b7d1;
+    color: white;
+    border-radius: 50%;
+}
+
+.explanation {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 15px;
+    color: #464242;
+    background-color: #d7d8df;
+    padding: 40px;
+}
+
+@font-face {
+    font-family: 'abercu';
+    src: url('apercu_medium_pro.otf');
+}
